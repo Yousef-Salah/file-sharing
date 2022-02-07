@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware('auth')->get('/home', function () {
+    return view('index');
+})->name('files.home');
+
+Route::middleware('auth')->get('/my-files', function() {
+    return view('files.index');
+})->name('files.files');
+
+Route::middleware('auth')->get('/create', function() {
+    return view('files.create');
+})->name('files.files');
+
+
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
