@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Finder\Iterator\FilecontentFilterIterator;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->get('/home', function () {
-    return view('index');
-})->name('files.home');
+Route::middleware('auth')->as('files.')->group(function() {
+    Route::get('/my-files',[FileController::class,'index'])->name('my-files');
+    Route::get('/create',[FileController::class,'create'])->name('create');
+    Route::get('/edit/{id}',[FileController::class,'edit'])->name('edit');
+    Route::get('down/{linkID}',[FileController::class,'download'])->name('download');
+    Route::put('/update',[FileController::class,'update'])->name('update');
+    Route::post('/store',[FileController::class,'store'])->name('store');
+    Route::post('/create/link/{fielID}',[FileController::class,'createLink'])->name('createLink');
+});
 
-Route::middleware('auth')->get('/my-files', function() {
-    return view('files.index');
-})->name('files.files');
+//Route::get('/create',[FileController::class,'create'])->name('files.create');
 
-Route::middleware('auth')->get('/create', function() {
-    return view('files.create');
-})->name('files.files');
+
+
+
 
 
 

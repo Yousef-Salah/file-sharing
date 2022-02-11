@@ -52,7 +52,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            <h2>@yield('name')</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -68,11 +68,13 @@
                                     <a><i class="fa fa-home"></i> Home </a>
                                 </li>
 
-                                <li><a><i class="fa fa-folder-open"></i> My Files <span
-                                            class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-folder-open"></i> My Files <span class="fa fa-chevron-down"></span></a>
+
                                     <ul class="nav child_menu">
-                                        <li><a href="form.html"> <i class="fa fa-plus-square"></i> New File </a></li>
+                                        <li><a href="/create"> <i class="fa fa-plus-square"></i> New File </a></li>
+                                        <li><a href="/my-files"> <i class="fa fa-folder"></i> Files List </a></li>
                                     </ul>
+
                                 </li>
 
                                 <li><a><i class="fa fa-users"></i> Friends <span class="fa fa-chevron-down"></span></a>
