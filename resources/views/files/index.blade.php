@@ -23,20 +23,18 @@
 
             
             <td class="col-centered">
-                <div style="width:100px; text-align:center;" class=" btn-sm btn-{{ $status[$file->status] }}"> {{ $file->status }} </div>
+                <div style="width:100px; text-align:center;" class="btn-round  btn-sm btn-{{ $status[$file->status] }}"> {{ $file->status }} </div>
             </td>
             
             
             <td style="text-align: center;">{{ $file->number_of_people }}</td>
-            <td>
-                <a class="btn btn-info btn-sm">Preview</a>
-                <form action="{{ route('files.createLink',$file->id) }}" method="post">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-sm">Share</button>
-                </form>
+            <td>    
+                <a  class="btn btn-info btn-sm">copy link</a>
+                <a href="{{ route('files.info',$file->id) }}" class="btn btn-info btn-sm">info</a>
+                            
                 <a href="{{ route('files.edit', $file->id) }}" class="btn btn-warning btn-sm">Edit</a>
                 <a class="btn btn-danger btn-sm">Delete</a>
-                <a class="btn btn-danger btn-sm">Download</a>
+                <a href="{{ route('files.download',$file->id) }} " class="btn btn-danger btn-sm">Download</a>
             </td>        
         </tr>
     @endforeach

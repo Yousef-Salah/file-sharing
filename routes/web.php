@@ -20,9 +20,12 @@ Route::middleware('auth')->as('files.')->group(function() {
     Route::get('/create',[FileController::class,'create'])->name('create');
     Route::get('/edit/{id}',[FileController::class,'edit'])->name('edit');
     Route::get('down/{linkID}',[FileController::class,'download'])->name('download');
+    Route::get('/file-info/{fileID}',[FileController::class,'fileInfo'])->name('info');
     Route::put('/update',[FileController::class,'update'])->name('update');
     Route::post('/store',[FileController::class,'store'])->name('store');
     Route::post('/create/link/{fielID}',[FileController::class,'createLink'])->name('createLink');
+
+    Route::get('/preview/{id}',[FileController::class,'preview'])->name('preview');
 });
 
 //Route::get('/create',[FileController::class,'create'])->name('files.create');

@@ -8,6 +8,7 @@ use Illuminate\Support\str;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
@@ -16,7 +17,15 @@ class FileController extends Controller
 {
     public function index()
     {
+        
+        $file = File::with('link')->findOrFail(47);
+        dd($file->link->url);
+
+
         $files = File::all();
+
+        
+
         return view('files.index')->with([
             'files' => $files,
             'status' => File::statusOptions(),
@@ -58,7 +67,6 @@ class FileController extends Controller
         File::create($data);
 
         return redirect()->route('files.my-files');
-
     }
 
     public function edit($id)
@@ -102,17 +110,18 @@ class FileController extends Controller
         ];
     }
 
-    public  function download($url) // model binding
+    public  function download($fileID) // model binding
     {
-        $data = Url::findOrFail($url);
-        
-        $file = File::findOrFail($data->file_id);
-
-        $data->delete();
-        return Storage::download($file->file_path);
+        $file_path = File::findOrFail($fileID)->file_path;
+        return Storage::download($file_path);
     }
 
-    
+    public function fileInfo($fileID) // model binding
+    {
+        $file = File::findOrFail($fileID);
+        
+        return view('files.file-info',compact('file'));
+    }
 
     public function createLink($fileID)
     {
