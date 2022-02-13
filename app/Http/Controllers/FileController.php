@@ -17,12 +17,21 @@ class FileController extends Controller
 {
     public function index()
     {
+        //$file = File::with('link')->findOrFail();
+
+        // $yousef = $file->url;
+        // foreach($yousef as $url){
+        //     dd($url->url);
+        // }
+
+        //dd($file->link->url);
+
+
+        $files = File::where('user_id', '=', Auth::user()->id)->get();
+        // dd($files);
+        // $link = Url::where('file_id','=',$files->id);
         
-        $file = File::with('link')->findOrFail(47);
-        dd($file->link->url);
 
-
-        $files = File::all();
 
         
 
@@ -110,17 +119,28 @@ class FileController extends Controller
         ];
     }
 
-    public  function download($fileID) // model binding
+    public  function download($id) // model binding
     {
-        $file_path = File::findOrFail($fileID)->file_path;
+        $file = File::find($id);
+        $url = Url::find($id);
+
+        if($file){
+            $file_path = $file->file_path;
+        } else if ($url) {
+            $file_path = File::find($url->file_id)->file_path;
+        } else  abort(404);
+
         return Storage::download($file_path);
     }
 
     public function fileInfo($fileID) // model binding
     {
         $file = File::findOrFail($fileID);
-        
-        return view('files.file-info',compact('file'));
+        return view('files.file-info')
+                    ->with([
+                        'file' => $file,
+                        'link' => $file->link->url,
+                    ]);
     }
 
     public function createLink($fileID)

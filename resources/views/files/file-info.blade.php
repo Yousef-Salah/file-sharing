@@ -71,7 +71,7 @@
 
         <div class="form-group row">
             <label class="col-sm-2 control-label">Download Link: </label>
-            <div class="col-sm-10"><a href="">Click To Download</a></div>
+            <div class="col-sm-10"><a href="{{ route('files.download',$file->id) }}">Click To Download</a> <button onclick="CopyLink(' {{config('app.url') .'/down/'.  $link }}');" class="btn  btn-success">or Copy</button></div>
         </div>
 
     </div>
@@ -79,7 +79,5 @@
 @endsection
 
 @push('script')
-
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script src="{{ asset('js/copyLink.js') }}"></script>
 @endpush

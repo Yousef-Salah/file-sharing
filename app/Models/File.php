@@ -60,6 +60,6 @@ class File extends Model
 
     public function getUrlAttribute()
     {
-        return Url::select('url')->where('file_id', '=', $this->id)->get();
+        return Url::where('file_id', '=', $this->id)->get();
     }
 }

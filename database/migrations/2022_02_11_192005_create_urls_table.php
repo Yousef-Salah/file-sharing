@@ -26,7 +26,7 @@ class CreateUrlsTable extends Migration
             $table->string('url')->primary();
             $table->boolean('is_reusable');
 
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@
             <td>{{ $loop->index + 1 }}</td>
             <td>{{ $file->file_name }}</td>
             <td>{{ $file->description }}</td>
-            <td class="text-center">{{ $file->number_of_downloads }}</td>
+            <td class="text-center">{{-- $file->number_of_downloads --}}</td>
 
             
             <td class="col-centered">
@@ -29,7 +29,7 @@
             
             <td style="text-align: center;">{{ $file->number_of_people }}</td>
             <td>    
-                <a  class="btn btn-info btn-sm">copy link</a>
+                <button onclick="CopyLink(' {{config('app.url') . '/down/'.  $file->link->url '}});" class="btn btn-info btn-sm">copy link</button>
                 <a href="{{ route('files.info',$file->id) }}" class="btn btn-info btn-sm">info</a>
                             
                 <a href="{{ route('files.edit', $file->id) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -42,3 +42,6 @@
 
 @endsection
 
+@push('script')
+<script src="{{ asset('js/copyLink.js') }}"></script>
+@endpush
