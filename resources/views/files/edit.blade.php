@@ -2,9 +2,16 @@
 
 @section('title','Upload New File')
 
+
+@php
+
+    $uploadFile = false;
+@endphp
+
+
 @section('content')
 
-<form style="color:black; font-size:16px" class="form-horizontal" action="{{ route('files.update') }}" method="post" enctype="multipart/form-data" >
+<form style="color:black; font-size:16px" class="form-horizontal" action="{{ route('files.update' , $file->id) }}" method="post" enctype="multipart/form-data" >
     @csrf
     @method('put')
 

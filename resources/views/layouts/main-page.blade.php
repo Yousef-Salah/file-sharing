@@ -52,7 +52,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>@yield('name')</h2>
+                            <h2>{{ Auth::user()->name }}</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -71,33 +71,32 @@
                                 <li><a><i class="fa fa-folder-open"></i> My Files <span class="fa fa-chevron-down"></span></a>
 
                                     <ul class="nav child_menu">
-                                        <li><a href="/create"> <i class="fa fa-plus-square"></i> New File </a></li>
-                                        <li><a href="/my-files"> <i class="fa fa-folder"></i> Files List </a></li>
+                                        <li><a href="{{ route('files.create') }}"> <i class="fa fa-plus-square"></i> New File </a></li>
+                                        <li><a href="{{ route('files.my-files') }}"> <i class="fa fa-folder"></i> Files List </a></li>
                                     </ul>
 
                                 </li>
 
                                 <li><a><i class="fa fa-users"></i> Friends <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="general_elements.html">General Elements</a></li>
+                                        <li><a href="#">General Elements</a></li>
                                     </ul>
                                 </li>
 
                                 <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="chartjs.html">Chart JS</a></li>
-                                        <li><a href="chartjs2.html">Chart JS2</a></li>
-                                        <li><a href="morisjs.html">Moris JS</a></li>
-                                        <li><a href="echarts.html">ECharts</a></li>
-                                        <li><a href="other_charts.html">Other Charts</a></li>
+                                        <li><a href="#">Chart JS</a></li>
+                                        <li><a href="#">Chart JS2</a></li>
+                                        <li><a href="#">Moris JS</a></li>
+                                        <li><a href="#">ECharts</a></li>
+                                        <li><a href="#">Other Charts</a></li>
                                     </ul>
                                 </li>
 
-                                <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-clone"></i>Quick Access <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                                        <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                                        <li><a href="{{ route('files.trashed') }}">Trah <i class="fa fa-trash"></i></a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -108,38 +107,38 @@
                                 <li><a><i class="fa fa-bug"></i> Additional Pages <span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="e_commerce.html">E-commerce</a></li>
-                                        <li><a href="projects.html">Projects</a></li>
-                                        <li><a href="project_detail.html">Project Detail</a></li>
-                                        <li><a href="contacts.html">Contacts</a></li>
-                                        <li><a href="profile.html">Profile</a></li>
+                                        <li><a href="#">E-commerce</a></li>
+                                        <li><a href="#">Projects</a></li>
+                                        <li><a href="#">Project Detail</a></li>
+                                        <li><a href="#">Contacts</a></li>
+                                        <li><a href="#">Profile</a></li>
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="page_403.html">403 Error</a></li>
-                                        <li><a href="page_404.html">404 Error</a></li>
-                                        <li><a href="page_500.html">500 Error</a></li>
-                                        <li><a href="plain_page.html">Plain Page</a></li>
-                                        <li><a href="login.html">Login Page</a></li>
-                                        <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                        <li><a href="#">403 Error</a></li>
+                                        <li><a href="#">404 Error</a></li>
+                                        <li><a href="#">500 Error</a></li>
+                                        <li><a href="#">Plain Page</a></li>
+                                        <li><a href="#">Login Page</a></li>
+                                        <li><a href="#">Pricing Tables</a></li>
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#level1_1">Level One</a>
+                                        <li><a href="#">Level One</a>
                                         <li><a>Level One<span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                                <li class="sub_menu"><a href="#">Level Two</a>
                                                 </li>
-                                                <li><a href="#level2_1">Level Two</a>
+                                                <li><a href="#">Level Two</a>
                                                 </li>
-                                                <li><a href="#level2_2">Level Two</a>
+                                                <li><a href="#">Level Two</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li><a href="#level1_2">Level One</a>
+                                        <li><a href="#">Level One</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -180,22 +179,20 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <img src="{{ asset('images/img.jpg') }}" alt="">John Doe
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ asset('images/img.jpg') }}" alt="">{{ Auth::user()->name }}
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="javascript:;"> Profile <i class="fa fa-user pull-right"></i> </span>
-                                        </a></li>
+                                    <li><a href="javascript:;"> Profile <span class="badge bg-red pull-right">soon</span></span>
+                                        </a> </li>
                                     <li>
                                         <a href="javascript:;">
                                             <span class="badge bg-red pull-right">soon</span>
                                             <span>Settings</span>
                                         </a>
                                     </li>
-                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-
+                                    <li><a><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                 </ul>
                             </li>
 
@@ -332,7 +329,6 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 

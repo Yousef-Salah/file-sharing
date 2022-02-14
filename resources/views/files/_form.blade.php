@@ -15,21 +15,32 @@
     </select>
 </div>
 
+@if($uploadFile)
 <div class="form-group">
     <label for="file" class="col-sm-2 control-label">Upload File</label>
     <input type="file" name="file" id="file" onchange="loadImage(event)">
 </div>
+@endif
 
 <div class="form-group">
     <img id="image" width="200px">
 </div>
 
 
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Create</button>
+
+
+
+<div class="btn-group row">
+    <div class="col-sm-4"></div>
+    <div class="btn-group col-3">
+        <button type="submit" class="btn btn-primary"> Save </button>
+    </div>
+
+    <div class="btn-group col-sm-3">
+        <a href="{{ route('files.my-files') }}" class="btn btn-danger">Cancle</a>
     </div>
 </div>
+
 
 @push('script')
     <script>

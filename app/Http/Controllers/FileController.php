@@ -26,14 +26,11 @@ class FileController extends Controller
 
         //dd($file->link->url);
 
+        //$files = File::where('user_id', '=', Auth::user()->id)->get();
 
-        $files = File::where('user_id', '=', Auth::user()->id)->get();
-        // dd($files);
+        $files = File::all();
+
         // $link = Url::where('file_id','=',$files->id);
-        
-
-
-        
 
         return view('files.index')->with([
             'files' => $files,
@@ -43,10 +40,8 @@ class FileController extends Controller
 
     public function create()
     {
-        $status = File::statusOptions();
-      
         return view('files.create')
-                ->with(['status' => $status])
+                ->with(['status' => File::statusOptions()])
                 ->with('file', new File());
     }
 
@@ -54,14 +49,10 @@ class FileController extends Controller
     {
         $request->validate($this->rules());
         $data = $request->all();
-
-
-    
      
         // if($request->hasFile('file')){   
         //     $data['file_path'] = $this->uploadFile($request->file('file'));
         // }
-
 
         if($request->hasFile('file')){
             $file = $request->file('file');
@@ -78,59 +69,83 @@ class FileController extends Controller
         return redirect()->route('files.my-files');
     }
 
-    public function edit($id)
+    public function edit($fileID)
     {
-        $fileData = File::findOrFail($id);
+        $fileData = File::findOrFail($fileID);
 
         return view('files.edit')
                 ->with('file',$fileData)
                 ->with('status',File::statusOptions());
-
     }
 
-    public function update()
+    public function update(Request $request,$fileID)
     {
+        //$request->validate($this->rules());
 
+        $file = File::findOrFail($fileID);
+
+        $file->update($request->except('file'));
+        
+        return redirect()->route('files.my-files');
+        //dd($fileID);
+
+        
     }
 
-    public function destroy()
+    public function destroy($fileID)
     {
+        $file = File::withTrashed()->findOrFail($fileID);
 
+        if($file->deleted_at){
+         
+            $file->forceDelete();
+            Storage::disk('local')->delete($file->file_path);
+        } else {
+            $file->delete();
+   
+        }
+        return redirect()->route('files.my-files');
     }
 
-    public function restore()
+    public function restore($id)
     {
+        $file = File::onlyTrashed()->findOrFail($id);
+        $file->restore();
 
+        return redirect()->route('files.my-files');
     }
 
     public function trashed()
     {
-        
-    }
-
-    private function rules()
-    {
-        return [
-            'status' => 'required',
-            'file' => 'required|image',
-            'file_name' => 'required|string|min:5|max:70',
-            'description' => 'nullable|string|min:5',
-            //'number_of_people' ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ];
+        $files = File::onlyTrashed()->get();
+        return view('files.trashed')
+                    ->with('status',File::statusOptions())
+                    ->with('files',$files);
     }
 
     public  function download($id) // model binding
     {
-        $file = File::find($id);
+        $file = File::withoutGlobalScope('user-files')->withTrashed()->find($id);
         $url = Url::find($id);
-
+    
         if($file){
             $file_path = $file->file_path;
+            $deleted = $file->deleted_at;
         } else if ($url) {
-            $file_path = File::find($url->file_id)->file_path;
-        } else  abort(404);
+            $file = File::find($url->file_id);
+            $deleted = $file->deleted_at;
+            $file_path = $file->file_path;
+        } else{
+            $file_path = null;
+        }
 
-        return Storage::download($file_path);
+        if(isset($deleted)){
+            if($file->user_id == Auth::user()->id){
+                return Storage::download($file_path);
+             } else return abort(401);
+        }
+
+        return Storage::download($file_path ?? abort(404));    
     }
 
     public function fileInfo($fileID) // model binding
@@ -143,19 +158,15 @@ class FileController extends Controller
                     ]);
     }
 
-    public function createLink($fileID)
+    private function rules()
     {
-        $data = [
-            'user_id' => Auth::user()->id,
-            'file_id' => $fileID,
-            'is_valid' => 1,
-            'url' =>  Str::random(rand(5, 255)),
-            'is_reusable' => 0,
+        return [
+            'status' => 'in:private,public,accessible',
+            'file' => 'required|image',
+            'file_name' => 'required|string|min:3|max:70',
+            'description' => 'nullable|string|min:5',
+            //'number_of_people' ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ];
-
-        Url::create($data);
-
-        return redirect()->route('files.my-files');
     }
 
     private function uploadFile(UploadedFile $file)

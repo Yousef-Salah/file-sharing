@@ -18,14 +18,19 @@ use Symfony\Component\Finder\Iterator\FilecontentFilterIterator;
 Route::middleware('auth')->as('files.')->group(function() {
     Route::get('/my-files',[FileController::class,'index'])->name('my-files');
     Route::get('/create',[FileController::class,'create'])->name('create');
-    Route::get('/edit/{id}',[FileController::class,'edit'])->name('edit');
+    Route::get('/edit/{fileID}',[FileController::class,'edit'])->name('edit');
     Route::get('down/{linkID}',[FileController::class,'download'])->name('download');
     Route::get('/file-info/{fileID}',[FileController::class,'fileInfo'])->name('info');
-    Route::put('/update',[FileController::class,'update'])->name('update');
+    Route::put('/update/{fileID}',[FileController::class,'update'])->name('update');
     Route::post('/store',[FileController::class,'store'])->name('store');
-    Route::post('/create/link/{fielID}',[FileController::class,'createLink'])->name('createLink');
-
+    
     Route::get('/preview/{id}',[FileController::class,'preview'])->name('preview');
+
+    Route::delete('/destroy/{fileID}',[FileController::class,'destroy'])->name('destroy');
+
+    Route::get('/my-files/trashed', [FileController::class,'trashed'])->name('trashed');
+
+    Route::put('/restore/{fileID}', [FileController::class,'restore'])->name('restore');
 });
 
 //Route::get('/create',[FileController::class,'create'])->name('files.create');
