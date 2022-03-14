@@ -16,7 +16,7 @@ use Symfony\Component\Finder\Iterator\FilecontentFilterIterator;
 */
 
 Route::middleware('auth')->as('files.')->group(function() {
-    Route::get('/my-files',[FileController::class,'index'])->name('my-files');
+    Route::get('/',[FileController::class,'index'])->name('my-files');
     Route::get('/create',[FileController::class,'create'])->name('create');
     Route::get('/edit/{fileID}',[FileController::class,'edit'])->name('edit');
     Route::get('down/{linkID}',[FileController::class,'download'])->name('download');

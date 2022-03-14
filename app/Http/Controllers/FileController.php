@@ -35,6 +35,7 @@ class FileController extends Controller
         return view('files.index')->with([
             'files' => $files,
             'status' => File::statusOptions(),
+            'totalFiles' => $files->count(),
         ]);
     }
 
@@ -144,6 +145,8 @@ class FileController extends Controller
                 return Storage::download($file_path);
              } else return abort(401);
         }
+
+        $file->increment('number_of_downloads');
 
         return Storage::download($file_path ?? abort(404));    
     }
